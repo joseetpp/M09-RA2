@@ -9,3 +9,4 @@ public class PrincipalDiferents {
         System.out.println("Acaba thread main");
     }
 }
+    

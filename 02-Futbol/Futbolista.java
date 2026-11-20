@@ -39,12 +39,13 @@ public class Futbolista extends Thread{
     public void setNtirades(int ntirades) {
         this.ntirades = ntirades;
     }
-    public void run(){
-        for(int i = 0; i<NUM_TIRADES; i++){
+    @Override
+    public void run() {
+        for (int i = 0; i < NUM_TIRADES; i++) {
             this.ntirades++;
-        }
-        if(Math.random() < PROBABILITAT){
-            this.ngols++;
+            if (Math.random() < PROBABILITAT) {
+                this.ngols++;
+            }
         }
     }
 
@@ -54,7 +55,26 @@ public class Futbolista extends Thread{
             "Lewan", "Belli", "Arnau", "Aspas", "Messi", "MBapé"
         };
 
-        Futbolista[] futbolistas = new Futbolista[NUM_JUGADORS];
-        
+        Futbolista[] jugadors = new Futbolista[NUM_JUGADORS];
+        System.out.println("Inici dels xuts");
+        for (int i = 0; i < NUM_JUGADORS; i++) {
+            jugadors[i] = new Futbolista(noms[i]);
+        }
+        for (int i = 0; i < NUM_JUGADORS; i++) {
+            jugadors[i].start();
+        }
+        for(int i = 0; i<NUM_JUGADORS; i++){
+            try {
+                jugadors[i].join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Fi dels xuts"); 
+        System.out.println("--- Estadístiques ---");
+
+        for (int i = 0; i < NUM_JUGADORS; i++) {
+            System.out.printf("%-10s -> %d gols%n", jugadors[i].getName(), jugadors[i].getNgols());
+        }
     }
 }
